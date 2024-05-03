@@ -1,0 +1,16 @@
+{
+  "name": "gautam-aur-backend",
+  "version": "1.0.0",
+  "description": "this is the backend series",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javaScript",
+    "node",
+    "js"
+  ],
+  "author": "Gautam Pandit",
+  "license": "ISC"
+}
