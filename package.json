@@ -2,9 +2,10 @@
   "name": "gautam-aur-backend",
   "version": "1.0.0",
   "description": "this is the backend series",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [
     "javaScript",
@@ -12,5 +13,8 @@
     "js"
   ],
   "author": "Gautam Pandit",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.1.0"
+  }
 }
