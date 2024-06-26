@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-const app = express();
+const app = express(); // it is a method and trasfer the all property on that
 
 app.use(cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: process.env.CORS_ORIGIN, // put the origin on there for not all the way to detect
     credentials: true
 }))
 
