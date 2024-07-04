@@ -63,6 +63,7 @@ userSchema.methods.isPasswordCorrect = async function
     return await bcrypt.compare(password, this.password)
 }
 
+// These two are JWT token there is not any differences, Only uses changes
 userSchema.methods.generateAccessToken = async function () {}
-userSchema.methods.generateAccessToken = async function () {}
+userSchema.methods.generateRefreshToken = async function () {}
 export const User = mongoose.model("User", userSchema)
