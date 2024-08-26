@@ -18,4 +18,16 @@ app.use(express.static("public"))
 // for cookie from server Access and set cookie basically CRUD function
 app.use(cookieParser());
 
+
+
+// Routes import
+import userRouter from './routes/user.routes.js';
+
+// Routes Declration
+app.use("/api/v1/users", userRouter)
+
+// using the URL 
+// https://localhost:8000/api/v1/users/register
+
+
 export { app };
