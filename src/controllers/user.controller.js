@@ -27,7 +27,7 @@ const registerUser = asyncHandler(async( req, res ) => {
     // return res
 
     const {fullName, email, username, password} = req.body
-    console.log("email", email);
+    // console.log("email", email);
 
     // if(fullName === "") {
     //     throw new apiError(400, "fullName is required")
@@ -42,7 +42,7 @@ const registerUser = asyncHandler(async( req, res ) => {
         throw new apiError(400, "All the field are required")
     }
 
-    const existedUser =  User.findOne({
+    const existedUser = await User.findOne({
         $or: [{ username }, { email }]
     })
 
@@ -53,7 +53,12 @@ const registerUser = asyncHandler(async( req, res ) => {
     // Multer is a tool in Node.js used to handle file uploads. When users upload files (like images or documents) through a form on a website, Multer helps process those files and store them on the server.
 
     const avatarLocalPath =  req.files?.avatar[0]?.path;
-    const coverImageLocalPath =  req.files?.coverImage[0]?.path;
+    // const coverImageLocalPath =  req.files?.coverImage[0]?.path;
+
+    let coverImageLocalPath;
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+        coverImageLocalPath =req.files.coverImage[0].path
+    }
 
     if(!avatarLocalPath) {
         throw new apiError(400, "Avatar file is required");
