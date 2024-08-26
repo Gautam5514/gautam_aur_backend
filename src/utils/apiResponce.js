@@ -6,3 +6,6 @@ class apiResponse {
         this.success = statusCode < 400 // this is for the which category message response code
     }
 }
+
+
+export { apiResponse } 
