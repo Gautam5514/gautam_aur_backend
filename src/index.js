@@ -15,6 +15,7 @@ connectDB()
     app.listen(process.env.PORT || 8000, () => {
         console.log(`server is running at port : ${process.env.PORT}`);
     }) // Basically the (process.env.PORT) -> it is the variable
+    
 })
 .catch((err) => { // Its all are the callback property
     console.log("MongoDB connection failed !!! ", err);

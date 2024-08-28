@@ -27,7 +27,7 @@ const registerUser = asyncHandler(async( req, res ) => {
     // return res
 
     const {fullName, email, username, password} = req.body
-    // console.log("email", email);
+    
 
     // if(fullName === "") {
     //     throw new apiError(400, "fullName is required")
@@ -83,7 +83,7 @@ const registerUser = asyncHandler(async( req, res ) => {
         "-password -refreshToken"
     )
 
-    if(createdUser) {
+    if(!createdUser) {
         throw new apiError(500, "Something went wrong will registering the user")
     }
 
