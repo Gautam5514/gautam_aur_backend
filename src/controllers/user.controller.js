@@ -256,7 +256,9 @@ const changeCurrentPassword = asyncHandler (async (req, res) => {
 const getCurrentUser = asyncHandler (async (req, res) => {
   return res
   .status(200)
-  .json(200, req.user, "curret user fetch successfully")
+  .json(new apiResponse(
+    200, req.user, "curret user fetch successfully"
+  ))
 });
 
 const updateAccountDetails = asyncHandler (async (req, res) => {
@@ -266,7 +268,7 @@ const updateAccountDetails = asyncHandler (async (req, res) => {
     throw new apiError(400, "All fields are required")
   }
 
-  const user = User.findByIdAndUpdate(
+  const user = await User.findByIdAndUpdate(
     req.user?._id,
     {
       $set: {
@@ -340,5 +342,71 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
   .json(
     new apiResponse(200, user, "coverImage updated successfully")
   )
+});
+
+const getUserChannelProfile = asyncHandler(async (req, res) =>{
+  const {username} = req.params
+
+  if(!username?.trim()) {
+    throw new apiError(400, "username is Missing")
+  }
+
+  const channel =  await User.aggregate([
+    // this is match function to check from the database
+    {
+      $match: {
+        username: username?.toLowerCase()
+      }
+    },
+    { // to count how much the subscribers are subscribed of my channel
+      $lookup: {
+        from: "subscriptions",
+        localField: "_id",
+        foreignField: "channel",
+        as: "subscribers" 
+      }
+    },
+    { // to count how much the channel is subscriber by me
+      $lookup: {
+        from: "subscriptions",
+        localField: "_id",
+        foreignField: "subscriber",
+        as: "subscribedTo"
+      }
+    },
+    { // there is add 2 and 3 function add to count the subscriber and subscriber by me
+      $addFields: {
+        subscribersCount: {
+          $size: "$subscribers"
+        },
+        channelsSubscribedToCount: {
+          $size: "$subscribedTo"
+        }, 
+        isSubscribed: {
+          $cond : {
+            if : {$in: [req.user?._id, "$subscribers.subscriber"]},
+            then: true,
+            else: false
+          }
+        }
+      }
+    }
+  ])
 })
-export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword, getCurrentUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage};
+
+
+
+
+
+export {
+  registerUser, 
+  loginUser, 
+  logoutUser, 
+  refreshAccessToken, 
+  changeCurrentPassword, 
+  getCurrentUser, 
+  updateAccountDetails, 
+  updateUserAvatar, 
+  updateUserCoverImage,
+  getUserChannelProfile
+};
